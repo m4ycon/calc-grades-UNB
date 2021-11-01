@@ -73,10 +73,10 @@ function render() {
   }
   
   const a1Data = {
-    'Prova 1': { nota: 5.8, peso: .3*.4 },
-    'Prova 2': { nota: null, peso: .7*.4 },
-    'Questionários': { nota: 9.2, peso: .4*.6 },
-    'Tarefas': { nota: 6.831, peso: .6*.6 },
+    'Prova 1': { nota: 5.8, peso: .4*.6 },
+    'Prova 2': { nota: null, peso: .6*.6 },
+    'Questionários': { nota: 9.2, peso: .3*.4 },
+    'Tarefas': { nota: 6.831, peso: .7*.4 },
   }
   // 9.9*.3*.4 + 6.831*.7*.4 + 5.8*.4*.6 + x*.6*.6
   
