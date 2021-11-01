@@ -10,3 +10,13 @@ body {
   color: #fff;
   background: #333;
 }
+
+.disciplina table {
+  border-collapse: collapse;
+}
+
+.disciplina table td {
+  border: 1px solid #fff;
+  padding: 10px;
+  text-align: center;
+}
