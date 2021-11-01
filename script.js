@@ -67,10 +67,10 @@ function constructDisciplina(title, data) {
   disciplina.appendChild(table)
   const trs = Object.keys(data).map(key => {
     const tr = document.createElement('tr')
-    tr.innerHTML = `<td>${key}</td><td>${data[key]}</td>`
+    tr.innerHTML = `<td>${key}</td>
+      <td>${data[key] !== null ? data[key].toFixed(2) : '?'}</td>`
     return tr
   })
-
   trs.forEach(tr => table.appendChild(tr))
 
   document.body.appendChild(disciplina)
@@ -86,26 +86,26 @@ function render() {
   CN(cnData['Prova 1'], cnData['Prova 2'], cnData['Prova 3'], cnData['Atividades'])
   
   const peData = {
-    prova1: 7,
-    prova2: 10,
-    prova3: 10,
+    'Prova 1': 7,
+    'Prova 2': 10,
+    'Prova 3': 10,
   }
-  PE(peData.prova1, peData.prova2, peData.prova3)
+  PE(peData['Prova 1'], peData['Prova 2'], peData['Prova 3'])
   
   const a1Data = {
-    prova1: 5.8,
-    prova2: null,
-    nq: 9.2,
-    nt: 6.831,
+    'Prova 1': 5.8,
+    'Prova 2': null,
+    'Questionários': 9.2,
+    'Tarefas': 6.831,
   }
-  ALG1(a1Data.prova1, a1Data.prova2, a1Data.nq, a1Data.nt)
+  ALG1(a1Data['Prova 1'], a1Data['Prova 2'], a1Data['Questionários'], a1Data['Tarefas'])
   // 9.9*.3*.4 + 6.831*.7*.4 + 5.8*.4*.6 + x*.6*.6
   
   const tp1Data = {
-    prova1: 10,
-    prova2: null,
-    trab: 9.5,
-    atv: 10,
+    'Prova 1': 10,
+    'Prova 2': null,
+    'Trabalho': 9.5,
+    'Atividades': 10,
   }
   TP1(tp1Data.prova1, tp1Data.prova2, tp1Data.trab, tp1Data.atv)
 
