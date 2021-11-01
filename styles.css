@@ -11,6 +11,14 @@ body {
   background: #333;
 }
 
+.disciplina {
+  margin-bottom: 20px;
+}
+
+.disciplina h2 {
+  margin-bottom: 5px;
+}
+
 .disciplina table {
   border-collapse: collapse;
 }

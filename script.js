@@ -1,60 +1,42 @@
 
-function null_weight_accumulator(notas) {
-  return notas
-    .map(([n, w]) => n == null ? w : 0)
+function null_weight_accumulator(data) {
+  return Object.values(data)
+    .map(({ nota, peso }) => nota == null ? peso : 0)
     .reduce((a, b) => a + b)
 }
 
-function calc_nota_final(notas) {
-  return notas
-    .map(([n, w]) => n * w)
+function calc_nota_final(data) {
+  return Object.values(data)
+    .map(({ nota, peso }) => nota * peso)
     .reduce((a, b) => a + b)
 }
 
-function mencoes(disciplina, notas) {
-  const nota_final = calc_nota_final(notas)
-  let peso_restante = null_weight_accumulator(notas)
-  peso_restante = peso_restante == 0 ? 1 : peso_restante
+function mencoes(disciplina, data) {
+  const notaFinal = calc_nota_final(data)
+  let pesoRestante = null_weight_accumulator(data)
+  pesoRestante = pesoRestante == 0 ? 1 : pesoRestante
 
-  let mm = (5 - nota_final)/peso_restante
-  let ms = (7 - nota_final)/peso_restante
-  let ss = (9 - nota_final)/peso_restante
+  let mm = (5 - notaFinal)/pesoRestante
+  let ms = (7 - notaFinal)/pesoRestante
+  let ss = (9 - notaFinal)/pesoRestante
 
   mm = mm > 0 ? `${mm.toFixed(2)}` : 'Obtido'
   ms = ms > 0 ? `${ms.toFixed(2)}` : 'Obtido'
   ss = ss > 0 ? `${ss.toFixed(2)}` : 'Obtido'
 
-  console.log('='*40)
+  console.log('=================================')
   console.log(disciplina)
-  console.log(`Nota atual: ${nota_final.toFixed(2)}`)
+  console.log(`Nota atual: ${notaFinal.toFixed(2)}`)
   console.log(`Precisa de x pontos para tirar...`)
   console.log(`MM: x >= ${mm}`)
   console.log(`MS: x >= ${ms}`)
   console.log(`SS: x >= ${ss}`)
-  console.log('='*40)
-}
-
-function CN(p1, p2, p3, atv) {
-  notas = [[p1, .3], [p2, .3], [p3, .3], [atv, .1]]
-  mencoes('Cálculo numérico', notas)
-}
-
-function PE(p1, p2, p3) {
-  notas = [[p1, .3], [p2, .3], [p3, .4]]
-  mencoes('Probabilidade e Estatística', notas)
-}
-
-function ALG1(p1, p2, nq, nt) {
-  notas = [[nq, .3*.4], [nt, .7*.4], [p1, .4*.6], [p2, .6*.6]]
-  mencoes('Álgebra 1', notas)
-}
-
-function TP1(p1, p2, trab, atv) {
-  notas = [[p1, .1], [p2, .1], [trab, .5], [atv, .3]]
-  mencoes('Técnicas de Programação 1', notas)
+  console.log('=================================')
 }
 
 function constructDisciplina(title, data) {
+  mencoes(title, data)
+
   const disciplina = document.createElement('div')
   disciplina.classList.add('disciplina')
 
@@ -68,7 +50,7 @@ function constructDisciplina(title, data) {
   const trs = Object.keys(data).map(key => {
     const tr = document.createElement('tr')
     tr.innerHTML = `<td>${key}</td>
-      <td>${data[key] !== null ? data[key].toFixed(2) : '?'}</td>`
+      <td>${data[key].nota !== null ? data[key].nota.toFixed(2) : '?'}</td>`
     return tr
   })
   trs.forEach(tr => table.appendChild(tr))
@@ -78,36 +60,32 @@ function constructDisciplina(title, data) {
 
 function render() {
   const cnData = {
-    'Prova 1': 5.6,
-    'Prova 2': 7.2,
-    'Prova 3': null,
-    'Atividades': 0,
+    'Prova 1': { nota: 5.6, peso: .3 },
+    'Prova 2': { nota: 7.2, peso: .3 },
+    'Prova 3': { nota: null, peso: .3 },
+    'Atividades': { nota: 0, peso: .1 },
   }
-  CN(cnData['Prova 1'], cnData['Prova 2'], cnData['Prova 3'], cnData['Atividades'])
   
   const peData = {
-    'Prova 1': 7,
-    'Prova 2': 10,
-    'Prova 3': 10,
+    'Prova 1': { nota: 7, peso: .3 },
+    'Prova 2': { nota: 10, peso: .3 },
+    'Prova 3': { nota: 10, peso: .4 },
   }
-  PE(peData['Prova 1'], peData['Prova 2'], peData['Prova 3'])
   
   const a1Data = {
-    'Prova 1': 5.8,
-    'Prova 2': null,
-    'Questionários': 9.2,
-    'Tarefas': 6.831,
+    'Prova 1': { nota: 5.8, peso: .3*.4 },
+    'Prova 2': { nota: null, peso: .7*.4 },
+    'Questionários': { nota: 9.2, peso: .4*.6 },
+    'Tarefas': { nota: 6.831, peso: .6*.6 },
   }
-  ALG1(a1Data['Prova 1'], a1Data['Prova 2'], a1Data['Questionários'], a1Data['Tarefas'])
   // 9.9*.3*.4 + 6.831*.7*.4 + 5.8*.4*.6 + x*.6*.6
   
   const tp1Data = {
-    'Prova 1': 10,
-    'Prova 2': null,
-    'Trabalho': 9.5,
-    'Atividades': 10,
+    'Prova 1': { nota: 10, peso: .1 },
+    'Prova 2': { nota: null, peso: .1 },
+    'Trabalho': { nota: 9.5, peso: .5 },
+    'Atividades': { nota: 10, peso: .3 },
   }
-  TP1(tp1Data.prova1, tp1Data.prova2, tp1Data.trab, tp1Data.atv)
 
   constructDisciplina('Cálculo numérico', cnData)
   constructDisciplina('Probabilidade e Estatística', peData)
