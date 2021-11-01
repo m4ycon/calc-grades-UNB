@@ -11,7 +11,7 @@ function calc_nota_final(data) {
     .reduce((a, b) => a + b)
 }
 
-function mencoes(disciplina, data) {
+function mencoes(data) {
   const notaFinal = calc_nota_final(data)
   let pesoRestante = null_weight_accumulator(data)
   pesoRestante = pesoRestante == 0 ? 1 : pesoRestante
@@ -20,22 +20,21 @@ function mencoes(disciplina, data) {
   let ms = (7 - notaFinal)/pesoRestante
   let ss = (9 - notaFinal)/pesoRestante
 
-  mm = mm > 0 ? `${mm.toFixed(2)}` : 'Obtido'
-  ms = ms > 0 ? `${ms.toFixed(2)}` : 'Obtido'
-  ss = ss > 0 ? `${ss.toFixed(2)}` : 'Obtido'
-
-  console.log('=================================')
-  console.log(disciplina)
-  console.log(`Nota atual: ${notaFinal.toFixed(2)}`)
-  console.log(`Precisa de x pontos para tirar...`)
-  console.log(`MM: x >= ${mm}`)
-  console.log(`MS: x >= ${ms}`)
-  console.log(`SS: x >= ${ss}`)
-  console.log('=================================')
+  return {
+    notaFinal,
+    mencao: ss < 0 ? 'SS' 
+      : ms < 0 ? 'MS' 
+      : mm < 0 ? 'MM' 
+      : `--`,
+    proxMencao: mm > 0 ? `${mm.toFixed(2)} para MM` 
+      : ms > 0 ? `${ms.toFixed(2)} para MS` 
+      : ss > 0 ? `${ss.toFixed(2)} para SS` 
+      : 'Não há mais menções',
+  }
 }
 
 function constructDisciplina(title, data) {
-  mencoes(title, data)
+  const { notaFinal, mencao, proxMencao } = mencoes(data)
 
   const disciplina = document.createElement('div')
   disciplina.classList.add('disciplina')
@@ -44,9 +43,12 @@ function constructDisciplina(title, data) {
   titleElement.innerText = title
   disciplina.appendChild(titleElement)
 
+  const container = document.createElement('div')
+  container.classList.add('container')
+
   const table = document.createElement('table')
   table.classList.add('table')
-  disciplina.appendChild(table)
+  container.appendChild(table)
   const trs = Object.keys(data).map(key => {
     const tr = document.createElement('tr')
     tr.innerHTML = `<td>${key}</td>
@@ -55,6 +57,11 @@ function constructDisciplina(title, data) {
   })
   trs.forEach(tr => table.appendChild(tr))
 
+  const p = document.createElement('p')
+  p.innerText = `Nota final: ${notaFinal.toFixed(2)}\n (${mencao}, ${proxMencao})`
+  container.appendChild(p)
+
+  disciplina.appendChild(container)
   document.body.appendChild(disciplina)
 }
 
