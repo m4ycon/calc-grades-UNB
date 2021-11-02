@@ -29,7 +29,7 @@ function render() {
   const cn = new Subject('Cálculo Numérico', {
     'Prova 1': { grade: 5.6, weight: .3 },
     'Prova 2': { grade: 7.2, weight: .3 },
-    'Prova 3': { grade: null, weight: .3 },
+    'Prova 3': { grade: 5.7, weight: .3 },
     'Atividades': { grade: 0, weight: .1 },
   })
   const pe = new Subject('Probabilidade e Estatística', {
