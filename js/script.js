@@ -1,47 +1,34 @@
 
-function null_weight_accumulator(data) {
-  return Object.values(data)
-    .map(({ nota, peso }) => nota == null ? peso : 0)
-    .reduce((a, b) => a + b)
-}
+function mencoes(subject) {
+  const finalGrade = subject.getFinalGrade()
+  const remainingWeight = subject.getWeightsOnNullGrades()
 
-function calc_nota_final(data) {
-  return Object.values(data)
-    .map(({ nota, peso }) => nota * peso)
-    .reduce((a, b) => a + b)
-}
-
-function mencoes(data) {
-  const notaFinal = calc_nota_final(data)
-  let pesoRestante = null_weight_accumulator(data)
-  pesoRestante = pesoRestante == 0 ? 1 : pesoRestante
-
-  let mm = (5 - notaFinal)/pesoRestante
-  let ms = (7 - notaFinal)/pesoRestante
-  let ss = (9 - notaFinal)/pesoRestante
+  let mm = (5 - finalGrade)/remainingWeight
+  let ms = (7 - finalGrade)/remainingWeight
+  let ss = (9 - finalGrade)/remainingWeight
 
   return {
-    notaFinal,
-    mencao: ss < 0 ? 'SS' 
+    finalGrade,
+    mention: ss < 0 ? 'SS' 
       : ms < 0 ? 'MS' 
       : mm < 0 ? 'MM' 
       : `--`,
-    proxMencao: mm > 0 ? `${mm.toFixed(2)} para MM` 
+    nextMention: mm > 0 ? `${mm.toFixed(2)} para MM` 
       : ms > 0 ? `${ms.toFixed(2)} para MS` 
       : ss > 0 ? `${ss.toFixed(2)} para SS` 
       : 'Não há mais menções',
   }
 }
 
-function constructDisciplina(title, data) {
-  const { notaFinal, mencao, proxMencao } = mencoes(data)
+function constructDisciplina(subject) {
+  const { finalGrade, mention, nextMention } = mencoes(subject)
 
-  const disciplina = document.createElement('div')
-  disciplina.classList.add('disciplina')
+  const divDisciplina = document.createElement('div')
+  divDisciplina.classList.add('subject')
 
   const titleElement = document.createElement('h2')
-  titleElement.innerText = title
-  disciplina.appendChild(titleElement)
+  titleElement.innerText = subject.title
+  divDisciplina.appendChild(titleElement)
 
   const container = document.createElement('div')
   container.classList.add('container')
@@ -49,55 +36,55 @@ function constructDisciplina(title, data) {
   const table = document.createElement('table')
   table.classList.add('table')
   container.appendChild(table)
-  const trs = Object.keys(data).map(key => {
+  const trs = Object.keys(subject.topics).map(key => {
     const tr = document.createElement('tr')
     tr.innerHTML = `<td>${key}</td>
-      <td>${data[key].nota !== null ? data[key].nota.toFixed(2) : '?'}</td>`
+      <td>
+        ${subject.topics[key].grade !== null 
+          ? subject.topics[key].grade.toFixed(2) 
+          : '?'}
+      </td>`
     return tr
   })
   trs.forEach(tr => table.appendChild(tr))
 
   const p = document.createElement('p')
-  p.innerText = `Nota final: ${notaFinal.toFixed(2)}\n (${mencao}, ${proxMencao})`
+  p.innerText = `Nota final: ${finalGrade.toFixed(2)}\n (${mention}, ${nextMention})`
   container.appendChild(p)
 
-  disciplina.appendChild(container)
-  document.body.appendChild(disciplina)
+  divDisciplina.appendChild(container)
+  document.body.querySelector('.subjects').appendChild(divDisciplina)
 }
 
 function render() {
-  const cnData = {
-    'Prova 1': { nota: 5.6, peso: .3 },
-    'Prova 2': { nota: 7.2, peso: .3 },
-    'Prova 3': { nota: null, peso: .3 },
-    'Atividades': { nota: 0, peso: .1 },
-  }
-  
-  const peData = {
-    'Prova 1': { nota: 7, peso: .3 },
-    'Prova 2': { nota: 10, peso: .3 },
-    'Prova 3': { nota: 10, peso: .4 },
-  }
-  
-  const a1Data = {
-    'Prova 1': { nota: 5.8, peso: .4*.6 },
-    'Prova 2': { nota: null, peso: .6*.6 },
-    'Questionários': { nota: 9.2, peso: .3*.4 },
-    'Tarefas': { nota: 6.831, peso: .7*.4 },
-  }
-  // 9.9*.3*.4 + 6.831*.7*.4 + 5.8*.4*.6 + x*.6*.6
-  
-  const tp1Data = {
-    'Prova 1': { nota: 10, peso: .1 },
-    'Prova 2': { nota: null, peso: .1 },
-    'Trabalho': { nota: 9.5, peso: .5 },
-    'Atividades': { nota: 10, peso: .3 },
-  }
+  const cn = new Subject('Cálculo Numérico', {
+    'Prova 1': { grade: 5.6, weight: .3 },
+    'Prova 2': { grade: 7.2, weight: .3 },
+    'Prova 3': { grade: null, weight: .3 },
+    'Atividades': { grade: 0, weight: .1 },
+  })
+  const pe = new Subject('Probabilidade e Estatística', {
+    'Prova 1': { grade: 7, weight: .3 },
+    'Prova 2': { grade: 10, weight: .3 },
+    'Prova 3': { grade: 10, weight: .4 },
+  })
+  const a1 = new Subject('Álgebra 1', {
+    'Prova 1': { grade: 5.8, weight: .4*.6 },
+    'Prova 2': { grade: null, weight: .6*.6 },
+    'Questionários': { grade: 9.2, weight: .3*.4 },
+    'Tarefas': { grade: 6.831, weight: .7*.4 },
+  })
+  const tp1 = new Subject('Técnicas de Programação 1', {
+    'Prova 1': { grade: 10, weight: .1 },
+    'Prova 2': { grade: null, weight: .1 },
+    'Trabalho': { grade: 9.5, weight: .5 },
+    'Atividades': { grade: 10, weight: .3 },
+  })
 
-  constructDisciplina('Cálculo numérico', cnData)
-  constructDisciplina('Probabilidade e Estatística', peData)
-  constructDisciplina('Álgebra 1', a1Data)
-  constructDisciplina('Técnicas de Programação 1', tp1Data)
+  constructDisciplina(cn)
+  constructDisciplina(pe)
+  constructDisciplina(a1)
+  constructDisciplina(tp1)
 }
 
 render()

@@ -9,18 +9,20 @@ body {
   font-size: 16px;
   color: #fff;
   background: #333;
+}
 
+.subjects {
   display: flex;
   flex-flow: wrap;
   gap: 20px;
 }
 
-.disciplina {
+.subject {
   padding: 20px;
   border: 2px solid #fff;
 }
 
-.disciplina .container {
+.subject .container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,16 +31,16 @@ body {
   gap: 20px;
 }
 
-.disciplina h2 {
+.subject h2 {
   margin-bottom: 5px;
   text-align: center;
 }
 
-.disciplina table {
+.subject table {
   border-collapse: collapse;
 }
 
-.disciplina table td {
+.subject table td {
   border: 1px solid #fff;
   padding: 10px;
   text-align: center;
