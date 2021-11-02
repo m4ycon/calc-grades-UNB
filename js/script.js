@@ -1,27 +1,8 @@
 
-function mencoes(subject) {
-  const finalGrade = subject.getFinalGrade()
-  const remainingWeight = subject.getWeightsOnNullGrades()
-
-  let mm = (5 - finalGrade)/remainingWeight
-  let ms = (7 - finalGrade)/remainingWeight
-  let ss = (9 - finalGrade)/remainingWeight
-
-  return {
-    finalGrade,
-    mention: ss < 0 ? 'SS' 
-      : ms < 0 ? 'MS' 
-      : mm < 0 ? 'MM' 
-      : `--`,
-    nextMention: mm > 0 ? `${mm.toFixed(2)} para MM` 
-      : ms > 0 ? `${ms.toFixed(2)} para MS` 
-      : ss > 0 ? `${ss.toFixed(2)} para SS` 
-      : 'Não há mais menções',
-  }
-}
-
 function constructDisciplina(subject) {
-  const { finalGrade, mention, nextMention } = mencoes(subject)
+  const finalGrade = subject.getFinalGrade()
+  const mention = subject.getMention()
+  const nextMention = subject.getNextMention()
 
   const divDisciplina = document.createElement('div')
   divDisciplina.classList.add('subject')
@@ -33,20 +14,8 @@ function constructDisciplina(subject) {
   const container = document.createElement('div')
   container.classList.add('container')
 
-  const table = document.createElement('table')
-  table.classList.add('table')
-  container.appendChild(table)
-  const trs = Object.keys(subject.topics).map(key => {
-    const tr = document.createElement('tr')
-    tr.innerHTML = `<td>${key}</td>
-      <td>
-        ${subject.topics[key].grade !== null 
-          ? subject.topics[key].grade.toFixed(2) 
-          : '?'}
-      </td>`
-    return tr
-  })
-  trs.forEach(tr => table.appendChild(tr))
+  const table = subject.getTopicsHTMLTable()
+  container.innerHTML += table
 
   const p = document.createElement('p')
   p.innerText = `Nota final: ${finalGrade.toFixed(2)}\n (${mention}, ${nextMention})`
