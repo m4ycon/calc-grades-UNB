@@ -45,7 +45,7 @@ function render() {
   })
   const tp1 = new Subject('Técnicas de Programação 1', {
     'Prova 1': { grade: 10, weight: .1 },
-    'Prova 2': { grade: null, weight: .1 },
+    'Prova 2': { grade: 10, weight: .1 },
     'Trabalho': { grade: 9.5, weight: .5 },
     'Atividades': { grade: 10, weight: .3 },
   })
