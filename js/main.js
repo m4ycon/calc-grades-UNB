@@ -1,5 +1,5 @@
 
-function constructDisciplina(subject) {
+function constructSubject(subject) {
   const finalGrade = subject.getFinalGrade()
   const mention = subject.getMention()
   const nextMention = subject.getNextMention()
@@ -30,7 +30,7 @@ function render() {
     'Prova 1': { grade: 5.6, weight: .3 },
     'Prova 2': { grade: 7.2, weight: .3 },
     'Prova 3': { grade: 5.7, weight: .3 },
-    'Atividades': { grade: 0, weight: .1 },
+    'Atividades': { grade: 8, weight: .1 },
   })
   const pe = new Subject('Probabilidade e Estatística', {
     'Prova 1': { grade: 7, weight: .3 },
@@ -40,8 +40,8 @@ function render() {
   const a1 = new Subject('Álgebra 1', {
     'Prova 1': { grade: 5.8, weight: .4*.6 },
     'Prova 2': { grade: null, weight: .6*.6 },
-    'Questionários': { grade: 9.2, weight: .3*.4 },
-    'Tarefas': { grade: 6.831, weight: .7*.4 },
+    'Questionários': { grade: 9.214, weight: .3*.4 },
+    'Tarefas': { grade: 7.523, weight: .7*.4 },
   })
   const tp1 = new Subject('Técnicas de Programação 1', {
     'Prova 1': { grade: 10, weight: .1 },
@@ -50,10 +50,10 @@ function render() {
     'Atividades': { grade: 10, weight: .3 },
   })
 
-  constructDisciplina(cn)
-  constructDisciplina(pe)
-  constructDisciplina(a1)
-  constructDisciplina(tp1)
+  constructSubject(cn)
+  constructSubject(pe)
+  constructSubject(a1)
+  constructSubject(tp1)
 }
 
 render()
