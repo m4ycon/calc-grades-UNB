@@ -39,8 +39,8 @@ function render() {
   })
   const a1 = new Subject('Álgebra 1', {
     'Prova 1': { grade: 5.8, weight: .4*.6 },
-    'Prova 2': { grade: null, weight: .6*.6 },
-    'Questionários': { grade: 9.214, weight: .3*.4 },
+    'Prova 2': { grade: 4.7, weight: .6*.6 },
+    'Questionários': { grade: 9.929, weight: .3*.4 },
     'Tarefas': { grade: 7.523, weight: .7*.4 },
   })
   const tp1 = new Subject('Técnicas de Programação 1', {
